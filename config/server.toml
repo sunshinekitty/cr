@@ -1,0 +1,6 @@
+[database]
+driver = "psql"  # Currently only supported driver
+host = "localhost"
+user = "postgres"
+pass = "password"
+db = "crackle"

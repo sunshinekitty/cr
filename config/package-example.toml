@@ -1,0 +1,15 @@
+package = "testing"
+repository = "sunshinekitty/testing:latest"
+command_start = "start.sh"
+
+[[port]]
+local = "8080"
+container = "8080"
+
+[[volume]]
+local = "/tmp"
+container = "/docker/path"
+
+[[volume]]
+local = "dist"
+container = "/var/www"

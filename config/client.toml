@@ -1,0 +1,18 @@
+# This config file is managed by the `crackle config` sub-command.
+# NOT ADVISED TO HAND EDIT
+
+# Default config locations:
+#   Mac: $HOME/.cr/client-config.toml
+#   Linux: $XDG_CONFIG_HOME/.cr/client-config.toml, $HOME/.cr/client-config.toml
+#   Windows: Hahaha
+
+[crackle]
+api = "https://api.crackle.pm/"
+
+# develop section is used when env var CRACKLE_DEVELOP is set to "true"
+[develop]
+api = "http://localhost:3813/"
+
+[develop.auth]
+username = "username" # default username for crackle-api
+apikey = "apikey"     # default password for crackle-api

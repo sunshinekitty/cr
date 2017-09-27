@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS packages (
+    name varchar(100) PRIMARY KEY,
+    owner varchar(40) NOT NULL,
+    version varchar(20) NOT NULL,
+    created_at timestamp NOT NULL,
+    updated_at timestamp NOT NULL,
+    config text NOT NULL,
+    pulls integer NOT NULL,
+    privacy varchar(20) DEFAULT 'public',
+    short_description varchar(200) DEFAULT NULL,
+    long_description varchar(25000) DEFAULT NULL,
+    docker_repo varchar(141) NOT NULL,
+    homepage varchar(100) DEFAULT NULL,
+    CONSTRAINT name_owner_version UNIQUE (name, version)
+);
+CREATE TABLE IF NOT EXISTS users (
+    name varchar(40) NOT NULL,
+    username varchar(40) PRIMARY KEY,
+    password text NOT NULL,
+    created_at timestamp NOT NULL,
+    last_login timestamp NOT NULL,
+    provider varchar(20) DEFAULT 'github',
+    CONSTRAINT name_provider UNIQUE(name, provider)
+);

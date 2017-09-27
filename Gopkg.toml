@@ -1,0 +1,32 @@
+[[dependencies]]
+  name = "github.com/Sirupsen/logrus"
+  version = "^1.0.2"
+
+[[dependencies]]
+  name = "github.com/fsnotify/fsnotify"
+  version = "^1.4.2"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/spf13/cobra"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/spf13/viper"
+
+[[dependencies]]
+  name = "github.com/BurntSushi/toml"
+  version = "0.3.0"
+
+[[dependencies]]
+  name = "github.com/labstack/echo"
+  version = "3.2.3"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/jmoiron/sqlx"
+
+[[dependencies]]
+  branch = "master"
+  name = "github.com/lib/pq"
+
