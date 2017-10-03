@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/sunshinekitty/cr/db"
-	"github.com/sunshinekitty/cr/web/handlers"
+	"github.com/sunshinekitty/cr/handlers"
 )
 
 var webCmd = &cobra.Command{
