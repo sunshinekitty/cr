@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
 	_ "github.com/lib/pq"
 
+	"github.com/sunshinekitty/cr/helpers"
 	"github.com/sunshinekitty/cr/models"
 )
 
@@ -20,11 +22,15 @@ func ReadPackage(c echo.Context) error {
 	// Params
 	name := c.Param("name")
 
+	if !helpers.ValidPackageName(name) {
+		return echo.NewHTTPError(http.StatusNotFound)
+	}
+
 	// Query/unpack
 	foundPackage := models.Package{}
 	err := DB.Get(&foundPackage, "SELECT * FROM packages WHERE name=$1", name)
 	if err != nil {
-		if err.Error() == "sql: no rows in result set" {
+		if err == sql.ErrNoRows {
 			return echo.NewHTTPError(http.StatusNotFound)
 		}
 		log.Error(err)
@@ -43,6 +49,10 @@ func UpdatePackage(c echo.Context) error {
 func DeletePackage(c echo.Context) error {
 	// Params
 	name := c.Param("name")
+
+	if !helpers.ValidPackageName(name) {
+		return echo.NewHTTPError(http.StatusNotFound)
+	}
 
 	// Query
 	delete := `DELETE FROM packages WHERE name=$1`

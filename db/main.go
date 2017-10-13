@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/sunshinekitty/cr/web/handlers"
+	"github.com/sunshinekitty/cr/handlers"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
