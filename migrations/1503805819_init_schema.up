@@ -1,13 +1,12 @@
 CREATE TABLE IF NOT EXISTS packages (
     command_start varchar(100),
-    created_at timestamp NOT NULL,
+    created_at timestamp NOT NULL DEFAULT current_timestamp,
     homepage varchar(100) DEFAULT NULL,
     long_description varchar(25000) DEFAULT NULL,
     name varchar(100) PRIMARY KEY,
     owner varchar(40) NOT NULL,
-    pulls integer NOT NULL,
+    pulls integer NOT NULL DEFAULT 0,
     ports jsonb,
-    privacy varchar(20) DEFAULT 'public',
     repository varchar(141) NOT NULL,
     short_description varchar(200) DEFAULT NULL,
     updated_at timestamp NOT NULL,
@@ -15,12 +14,20 @@ CREATE TABLE IF NOT EXISTS packages (
     volumes jsonb,
     CONSTRAINT name_owner_version UNIQUE (name, version)
 );
+CREATE OR REPLACE FUNCTION update_updated_at_column() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = current_timestamp;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER packages_update_timestamp BEFORE UPDATE ON packages FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TABLE IF NOT EXISTS users (
     name varchar(40) NOT NULL,
     username varchar(40) PRIMARY KEY,
     password text NOT NULL,
     created_at timestamp NOT NULL,
     last_login timestamp NOT NULL,
-    provider varchar(20) DEFAULT 'github',
+    provider varchar(20) NOT NULL DEFAULT 'github',
     CONSTRAINT name_provider UNIQUE(name, provider)
 );
+INSERT INTO packages VALUES (NULL, NULL, NULL, NULL, 'testing1', 'sunshinekitty', 1, '[{"local": 8080, "container": 8080}]', 'sunshinekitty/testing', NULL, current_timestamp, 'latest', '[{"local": "/tmp", "container": "/docker/path"}]');

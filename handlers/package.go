@@ -14,6 +14,13 @@ import (
 
 // CreatePackage creates a new Package
 func CreatePackage(c echo.Context) error {
+	// Params
+	name := c.Param("name")
+
+	if !helpers.ValidPackageName(name) {
+		return echo.NewHTTPError(http.StatusNotFound)
+	}
+
 	return c.JSON(http.StatusOK, "ok")
 }
 
@@ -42,6 +49,13 @@ func ReadPackage(c echo.Context) error {
 
 // UpdatePackage updates a Package by name
 func UpdatePackage(c echo.Context) error {
+	// Params
+	name := c.Param("name")
+
+	if !helpers.ValidPackageName(name) {
+		return echo.NewHTTPError(http.StatusNotFound)
+	}
+
 	return c.JSON(http.StatusOK, "ok")
 }
 

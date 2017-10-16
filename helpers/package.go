@@ -1,7 +1,12 @@
 package helpers
 
 import (
+	"errors"
+	"fmt"
 	"regexp"
+	"strconv"
+
+	"github.com/BurntSushi/toml"
 
 	"github.com/sunshinekitty/cr/models"
 )
@@ -11,19 +16,51 @@ var (
 
 	packageName = match(`([a-z\d]){1}([a-z0-9-*_*]){0,48}([a-z\d]){1}`)
 	repoName    = match(`([A-Za-z\d\./:-]*){3,141}`)
+
+	// ErrInvalidPackageName is thrown when an invalid package name is given
+	ErrInvalidPackageName = errors.New("package name is invalid")
+	// ErrInvalidRepositoryName is thrown when an invalid repository name is given
+	ErrInvalidRepositoryName = errors.New("repository name is invalid")
+	// ErrInvalidPort is thrown when an invalid port is given
+	ErrInvalidPort = errors.New("port number is invalid")
 )
 
-// ConfigToPackage takes a blob of toml config and translates to Package struct
-func ConfigToPackage(s string) (*models.Package, error) {
+// ConfigToPackageToml takes a blob of toml config and translates to PackageToml struct
+func ConfigToPackageToml(path string) (*models.PackageToml, error) {
+	var returnPackageToml models.PackageToml
+	_, err := toml.DecodeFile(path, &returnPackageToml)
+	return &returnPackageToml, err
+}
+
+// PackageTomlToPackage takes a PackageToml struct and converts it to a Package struct
+func PackageTomlToPackage(srcPackageToml *models.PackageToml) (*models.Package, error) {
+	var returnPackage models.Package
+	if !ValidPackageName(srcPackageToml.Package) {
+		return nil, ErrInvalidPackageName
+	}
+	if !ValidRepositoryName(srcPackageToml.Repository) {
+		return nil, ErrInvalidRepositoryName
+	}
+	for _, port := range srcPackageToml.Ports {
+		if !ValidPort(port.Container) {
+			ErrInvalidPort = fmt.Errorf("Container port \"%v\" is invalid", port.Container)
+			return nil, ErrInvalidPort
+		}
+		if !ValidPort(port.Local) {
+			ErrInvalidPort = fmt.Errorf("Local port \"%v\" is invalid", port.Local)
+			return nil, ErrInvalidPort
+		}
+	}
+	// TODO: finish validating rest of PackageToml then actually convert, probably pull out validation to separate func
+	return &returnPackage, nil
+}
+
+// PackageToTomlConfig takes a Package struct and spits out a blob of toml config
+func PackageToTomlConfig() (*string, error) {
 	return nil, nil
 }
 
-// PackageToConfig takes a Package struct and spits out a blob of toml config
-func PackageToConfig() (*string, error) {
-	return nil, nil
-}
-
-// ValidPackage validates a package object
+// ValidPackage validates a Package object
 func ValidPackage(p *models.Package) error {
 	return nil
 }
@@ -47,6 +84,10 @@ func ValidRepositoryName(n string) bool {
 }
 
 // ValidPort validate's a port number
-func ValidPort(i int) bool {
+func ValidPort(s string) bool {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		return false
+	}
 	return i >= 1 && i <= 65535
 }

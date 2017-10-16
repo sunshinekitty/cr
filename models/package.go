@@ -12,7 +12,6 @@ type Package struct {
 	Owner            string
 	Pulls            int
 	Ports            *types.JSONText
-	Privacy          string
 	Repository       string
 	ShortDescription *string `db:"short_description"`
 	UpdatedAt        string  `db:"updated_at"`
@@ -20,19 +19,31 @@ type Package struct {
 	Volumes          *types.JSONText
 }
 
+// Packages represents a list of Package structs
+type Packages struct {
+	Package []Package
+}
+
+// PackageToml represents a raw toml config object
+type PackageToml struct {
+	CommandStart     string `toml:"command_start"`
+	Homepage         *string
+	LongDescription  *string
+	Package          string
+	Ports            []Port `toml:"port"`
+	Repository       string
+	ShortDescription *string
+	Volumes          []Volume `toml:"volume"`
+}
+
 // Port represents a port forward config
 type Port struct {
-	Local     int
-	Container int
+	Local     string
+	Container string
 }
 
 // Volume represents a volume forward config
 type Volume struct {
 	Local     string
 	Container string
-}
-
-// Packages represents a list of packages
-type Packages struct {
-	Package []Package
 }
