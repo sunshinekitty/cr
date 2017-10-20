@@ -81,19 +81,19 @@ func TestValidRepositoryName(t *testing.T) {
 
 // https://tools.ietf.org/html/rfc793
 func TestValidPort(t *testing.T) {
-	if ValidPort(-1) {
+	if ValidPort("-1") {
 		t.Error("Port \"-1\" should be invalid")
 	}
-	if ValidPort(0) {
+	if ValidPort("0") {
 		t.Error("Port \"0\" should be invalid")
 	}
-	if ValidPort(65536) {
+	if ValidPort("65536") {
 		t.Error("Port \"65536\" should be invalid")
 	}
-	if !ValidPort(1) {
+	if !ValidPort("1") {
 		t.Error("Port \"1\" should be valid")
 	}
-	if !ValidPort(65535) {
+	if !ValidPort("65535") {
 		t.Error("Port \"65535\" should be valid")
 	}
 }

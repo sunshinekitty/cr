@@ -26,7 +26,7 @@ type Packages struct {
 
 // PackageToml represents a raw toml config object
 type PackageToml struct {
-	CommandStart     string `toml:"command_start"`
+	CommandStart     *string `toml:"command_start"`
 	Homepage         *string
 	LongDescription  *string
 	Package          string

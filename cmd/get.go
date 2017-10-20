@@ -1,10 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/spf13/cobra"
 
+	"github.com/sunshinekitty/cr/crackle"
 	"github.com/sunshinekitty/cr/helpers"
 )
 
@@ -23,10 +26,15 @@ var getCmd = &cobra.Command{
 		}
 
 		if update {
-			fmt.Println("gonna update your shit")
+			//fmt.Println("gonna update your shit")
 		} else {
-			fmt.Println("not gonna update your shit")
+			//fmt.Println("not gonna update your shit")
 		}
+
+		client := crackle.NewClient(nil)
+		client.BaseURL, _ = url.Parse("http://localhost:3813/api/")
+		ctx := context.Background()
+		fmt.Println(client.Package.GetPackage(ctx, args[0]))
 	},
 }
 
