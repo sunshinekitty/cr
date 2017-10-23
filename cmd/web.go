@@ -53,7 +53,7 @@ var webCmd = &cobra.Command{
 		e.Use(middleware.Recover())
 
 		// Route => handler
-		e.POST("/api/package/:name", handlers.CreatePackage)
+		e.POST("/api/package/", handlers.CreatePackage)
 		e.GET("/api/package/:name", handlers.ReadPackage)
 		e.PUT("/api/package/:name", handlers.UpdatePackage)
 		e.DELETE("/api/package/:name", handlers.DeletePackage)

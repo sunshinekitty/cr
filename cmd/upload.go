@@ -1,10 +1,13 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"net/url"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/sunshinekitty/cr/crackle"
 	"github.com/sunshinekitty/cr/helpers"
 )
 
@@ -32,7 +35,20 @@ var uploadCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		fmt.Printf("%v\n", p)
+
+		client := crackle.NewClient(nil)
+		client.BaseURL, _ = url.Parse("http://localhost:3813/api/")
+		ctx := context.Background()
+		createdPackage, resp, err := client.Package.CreatePackage(ctx, p)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		if resp.StatusCode == 200 {
+			fmt.Printf("Created package %s\n", createdPackage.Name)
+		} else {
+			fmt.Printf("%v: %s\n", resp.StatusCode, resp.Body)
+		}
 	},
 }
 

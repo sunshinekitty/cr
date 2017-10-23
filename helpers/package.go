@@ -127,6 +127,56 @@ func ValidPackageToml(pt *models.PackageToml) error {
 	return nil
 }
 
+// ValidPackage validates a Package object
+func ValidPackage(p *models.Package) error {
+	if !ValidPackageName(p.Name) {
+		return ErrInvalidPackageName
+	}
+	if !ValidRepositoryName(fmt.Sprintf("%s:%s", p.Repository, p.Version)) {
+		return ErrInvalidRepositoryName
+	}
+
+	portsBytes, err := json.Marshal(p.Ports)
+	ports := new(models.Ports)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(portsBytes, &ports)
+	for _, port := range *ports {
+		if !ValidPort(port.Container) {
+			ErrInvalidPort = fmt.Errorf("Container port \"%v\" is invalid", port.Container)
+			return ErrInvalidPort
+		}
+		if !ValidPort(port.Local) {
+			ErrInvalidPort = fmt.Errorf("Local port \"%v\" is invalid", port.Local)
+			return ErrInvalidPort
+		}
+	}
+
+	if p.ShortDescription != nil {
+		if len(fmt.Sprintf("%s", *p.ShortDescription)) > 200 {
+			return ErrLongShortDescription
+		}
+	}
+	if p.LongDescription != nil {
+		if len(fmt.Sprintf("%s", *p.LongDescription)) > 25000 {
+			return ErrLongLongDescription
+		}
+	}
+	if p.Homepage != nil {
+		if len(fmt.Sprintf("%s", *p.Homepage)) > 100 {
+			return ErrLongHomepage
+		}
+	}
+	if p.CommandStart != nil {
+		if len(fmt.Sprintf("%s", *p.CommandStart)) > 100 {
+			return ErrLongCommandStart
+		}
+	}
+
+	return nil
+}
+
 // ValidPackageName validates a package's name
 func ValidPackageName(n string) bool {
 	if len(n) == 0 {

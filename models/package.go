@@ -30,10 +30,10 @@ type PackageToml struct {
 	Homepage         *string
 	LongDescription  *string
 	Package          string
-	Ports            []Port `toml:"port"`
+	Ports            Ports `toml:"port"`
 	Repository       string
 	ShortDescription *string
-	Volumes          []Volume `toml:"volume"`
+	Volumes          Volumes `toml:"volume"`
 }
 
 // Port represents a port forward config
@@ -42,8 +42,14 @@ type Port struct {
 	Container string
 }
 
+// Ports represents a list of ports
+type Ports []Port
+
 // Volume represents a volume forward config
 type Volume struct {
 	Local     string
 	Container string
 }
+
+// Volumes represents a list of volumes
+type Volumes []Volume

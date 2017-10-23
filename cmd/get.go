@@ -25,11 +25,12 @@ var getCmd = &cobra.Command{
 			fmt.Println("Invalid package")
 		}
 
-		if update {
-			//fmt.Println("gonna update your shit")
-		} else {
-			//fmt.Println("not gonna update your shit")
-		}
+		// TODO: manage updates
+		//if update {
+		//	fmt.Println("gonna update your shit")
+		//} else {
+		//	fmt.Println("not gonna update your shit")
+		//}
 
 		client := crackle.NewClient(nil)
 		client.BaseURL, _ = url.Parse("http://localhost:3813/api/")

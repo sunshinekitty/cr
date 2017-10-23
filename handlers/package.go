@@ -14,14 +14,31 @@ import (
 
 // CreatePackage creates a new Package
 func CreatePackage(c echo.Context) error {
-	// Params
-	name := c.Param("name")
-
-	if !helpers.ValidPackageName(name) {
-		return echo.NewHTTPError(http.StatusNotFound)
+	p := new(models.Package)
+	if err := c.Bind(p); err != nil {
+		return err
 	}
 
-	return c.JSON(http.StatusOK, "ok")
+	if err := helpers.ValidPackage(p); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest)
+	}
+
+	// TODO: check for conflict here
+
+	query := `INSERT INTO packages(command_start, homepage, long_description, 
+								   name, owner, pulls, ports, repository, 
+								   short_description, version, volumes) 
+			  VALUES(:command_start, :homepage, :long_description, :name, 
+					 :owner, :pulls, :ports, :repository, :short_description, 
+					 :version, :volumes)`
+
+	_, err := DB.NamedExec(query, p)
+	if err != nil {
+		log.Error(err)
+		return echo.NewHTTPError(http.StatusInternalServerError)
+	}
+
+	return c.JSON(http.StatusOK, p)
 }
 
 // ReadPackage returns a Package by name
