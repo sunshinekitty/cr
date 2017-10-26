@@ -1,15 +1,15 @@
 CREATE TABLE IF NOT EXISTS packages (
     command_start varchar(100),
-    created_at timestamp NOT NULL DEFAULT current_timestamp,
+    created_at timestamp DEFAULT current_timestamp,
     homepage varchar(100) DEFAULT NULL,
     long_description varchar(25000) DEFAULT NULL,
-    name varchar(100) PRIMARY KEY,
+    name varchar(100),
     owner varchar(40) NOT NULL,
     pulls integer NOT NULL DEFAULT 0,
     ports jsonb,
     repository varchar(141) NOT NULL,
     short_description varchar(200) DEFAULT NULL,
-    updated_at timestamp NOT NULL,
+    updated_at timestamp DEFAULT current_timestamp,
     version varchar(20) NOT NULL,
     volumes jsonb,
     CONSTRAINT name_owner_version UNIQUE (name, version)
@@ -30,4 +30,3 @@ CREATE TABLE IF NOT EXISTS users (
     provider varchar(20) NOT NULL DEFAULT 'github',
     CONSTRAINT name_provider UNIQUE(name, provider)
 );
-INSERT INTO packages VALUES (NULL, NULL, NULL, NULL, 'testing1', 'sunshinekitty', 1, '[{"local": 8080, "container": 8080}]', 'sunshinekitty/testing', NULL, current_timestamp, 'latest', '[{"local": "/tmp", "container": "/docker/path"}]');

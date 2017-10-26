@@ -26,6 +26,8 @@ var (
 	ErrInvalidRepositoryName = errors.New("repository name is invalid")
 	// ErrInvalidPort is thrown when an invalid port is given
 	ErrInvalidPort = errors.New("port number is invalid")
+	// ErrInvalidVolume is thrown when an invalid volume mount is given
+	ErrInvalidVolume = errors.New("volume is invalid")
 	// ErrLongShortDescription is thrown when short description is too long (>200)
 	ErrLongShortDescription = errors.New("short description is too long (>200 chars)")
 	// ErrLongLongDescription is thrown when long description is too long (>25000)
@@ -104,6 +106,16 @@ func ValidPackageToml(pt *models.PackageToml) error {
 			return ErrInvalidPort
 		}
 	}
+	for _, volume := range pt.Volumes {
+		if len(volume.Container) > 4351 {
+			ErrInvalidVolume = fmt.Errorf("Container volume \"%v\" is too long", volume.Container)
+			return ErrInvalidVolume
+		}
+		if len(volume.Local) > 4351 {
+			ErrInvalidVolume = fmt.Errorf("Local volume \"%v\" is too long", volume.Local)
+			return ErrInvalidVolume
+		}
+	}
 	if pt.ShortDescription != nil {
 		if len(fmt.Sprintf("%s", *pt.ShortDescription)) > 200 {
 			return ErrLongShortDescription
@@ -150,6 +162,23 @@ func ValidPackage(p *models.Package) error {
 		if !ValidPort(port.Local) {
 			ErrInvalidPort = fmt.Errorf("Local port \"%v\" is invalid", port.Local)
 			return ErrInvalidPort
+		}
+	}
+
+	volumesBytes, err := json.Marshal(p.Volumes)
+	volumes := new(models.Volumes)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(volumesBytes, &volumes)
+	for _, volume := range *ports {
+		if len(volume.Container) > 4351 {
+			ErrInvalidVolume = fmt.Errorf("Container volume \"%v\" is too long", volume.Container)
+			return ErrInvalidVolume
+		}
+		if len(volume.Local) > 4351 {
+			ErrInvalidVolume = fmt.Errorf("Local volume \"%v\" is too long", volume.Local)
+			return ErrInvalidVolume
 		}
 	}
 

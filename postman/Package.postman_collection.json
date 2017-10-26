@@ -1,0 +1,346 @@
+{
+	"info": {
+		"name": "Package",
+		"_postman_id": "44df3acc-599d-1b0c-a512-b4bb28afb4e7",
+		"description": "Test Package endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create package \"testing\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"CommandStart as expected\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.CommandStart).to.eql(\"start.sh\");",
+							"});",
+							"",
+							"pm.test(\"CreatedAt as expected\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.CreatedAt).to.be.string;",
+							"    pm.expect(jsonData.CreatedAt).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Homepage is null\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Homepage).to.equal(null);",
+							"})",
+							"",
+							"pm.test(\"A port is set\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Ports[0].Local).to.equal(\"8080\");",
+							"})",
+							"",
+							"pm.test(\"A volume is set\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Volumes[0].Local).to.equal(\"/tmp\");",
+							"})",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"CommandStart\": \"start.sh\",\n\t\"Name\": \"testing\",\n\t\"Owner\": \"sunshinekitty\",\n\t\"Ports\": [\n\t\t{\n\t\t\t\"Local\": \"8080\",\n\t\t\t\"Container\": \"8080\"\n\t\t}\n\t],\n\t\"Repository\": \"sunshinekitty/testing\",\n\t\"Version\": \"latest\",\n\t\"Volumes\": [\n\t\t{\n\t\t\t\"Local\": \"/tmp\",\n\t\t\t\"Container\": \"/docker/path\"\n\t\t},\n\t\t{\n\t\t\t\"Local\": \"dist\",\n\t\t\t\"Container\": \"/var/www\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{api_endpoint}}/package/",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						""
+					]
+				},
+				"description": "Create package \"testing\""
+			},
+			"response": []
+		},
+		{
+			"name": "Get package \"testing\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"CommandStart as expected\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.CommandStart).to.eql(\"start.sh\");",
+							"});",
+							"",
+							"pm.test(\"CreatedAt as expected\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.CreatedAt).to.be.string;",
+							"    pm.expect(jsonData.CreatedAt).to.not.equal(null);",
+							"});",
+							"",
+							"pm.test(\"Homepage is null\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Homepage).to.equal(null);",
+							"})",
+							"",
+							"pm.test(\"A port is set\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Ports[0].Local).to.equal(\"8080\");",
+							"})",
+							"",
+							"pm.test(\"A volume is set\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Volumes[0].Local).to.equal(\"/tmp\");",
+							"})",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{api_endpoint}}/package/testing",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						"testing"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Try and create duplicate Package \"testing\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});",
+							"",
+							"pm.test(\"Message is correct\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Package testing:latest already exists\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"CommandStart\": \"start.sh\",\n\t\"Name\": \"testing\",\n\t\"Owner\": \"sunshinekitty\",\n\t\"Ports\": [\n\t\t{\n\t\t\t\"Local\": \"8080\",\n\t\t\t\"Container\": \"8080\"\n\t\t}\n\t],\n\t\"Repository\": \"sunshinekitty/testing\",\n\t\"Version\": \"latest\",\n\t\"Volumes\": [\n\t\t{\n\t\t\t\"Local\": \"/tmp\",\n\t\t\t\"Container\": \"/docker/path\"\n\t\t},\n\t\t{\n\t\t\t\"Local\": \"dist\",\n\t\t\t\"Container\": \"/var/www\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{api_endpoint}}/package/",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						""
+					]
+				},
+				"description": "Create package \"testing\""
+			},
+			"response": []
+		},
+		{
+			"name": "Create new package version of \"testing\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Version changed to v1.0.0\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Version).to.eql(\"v1.0.0\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"CommandStart\": \"start.sh\",\n\t\"Name\": \"testing\",\n\t\"Owner\": \"sunshinekitty\",\n\t\"Ports\": [\n\t\t{\n\t\t\t\"Local\": \"8080\",\n\t\t\t\"Container\": \"8080\"\n\t\t}\n\t],\n\t\"Repository\": \"sunshinekitty/testing\",\n\t\"Version\": \"v1.0.0\",\n\t\"Volumes\": [\n\t\t{\n\t\t\t\"Local\": \"/tmp\",\n\t\t\t\"Container\": \"/docker/path\"\n\t\t},\n\t\t{\n\t\t\t\"Local\": \"dist\",\n\t\t\t\"Container\": \"/var/www\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "{{api_endpoint}}/package/",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						""
+					]
+				},
+				"description": "Create package \"testing\""
+			},
+			"response": []
+		},
+		{
+			"name": "Get old package version \"latest\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Version is indeed latest\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Version).to.eql(\"latest\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{api_endpoint}}/package/testing?version=latest",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						"testing"
+					],
+					"query": [
+						{
+							"key": "version",
+							"value": "latest",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete package \"testing\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{api_endpoint}}/package/testing",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						"testing"
+					]
+				},
+				"description": "Delete package \"testing\""
+			},
+			"response": []
+		},
+		{
+			"name": "Get deleted package \"testing\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Message is Not Found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Not Found\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{api_endpoint}}/package/testing",
+					"host": [
+						"{{api_endpoint}}"
+					],
+					"path": [
+						"package",
+						"testing"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
