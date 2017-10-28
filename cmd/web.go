@@ -33,7 +33,7 @@ var webCmd = &cobra.Command{
 		viper.SetConfigName("server")
 		viper.SetConfigType("toml")
 		viper.AddConfigPath("/etc/crackle/")
-		viper.AddConfigPath("$HOME/.crackle")
+		viper.AddConfigPath("$HOME/.cr")
 		viper.AddConfigPath(".")
 		viper.SetDefault("LogLevel", "info")
 		viper.SetDefault("database.MaxConnections", 50)

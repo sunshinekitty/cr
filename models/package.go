@@ -26,20 +26,20 @@ type Packages struct {
 
 // PackageToml represents a raw toml config object
 type PackageToml struct {
+	Package          string  `toml:"package"`
+	Repository       string  `toml:"repository"`
 	CommandStart     *string `toml:"command_start"`
-	Homepage         *string
-	LongDescription  *string
-	Package          string
-	Ports            Ports `toml:"port"`
-	Repository       string
-	ShortDescription *string
+	Homepage         *string `toml:"homepage"`
+	LongDescription  *string `toml:"long_description"`
+	Ports            Ports   `toml:"port"`
+	ShortDescription *string `toml:"short_description"`
 	Volumes          Volumes `toml:"volume"`
 }
 
 // Port represents a port forward config
 type Port struct {
-	Local     string
-	Container string
+	Local     string `toml:"local"`
+	Container string `toml:"container"`
 }
 
 // Ports represents a list of ports
@@ -47,8 +47,8 @@ type Ports []Port
 
 // Volume represents a volume forward config
 type Volume struct {
-	Local     string
-	Container string
+	Local     string `toml:"local"`
+	Container string `toml:"container"`
 }
 
 // Volumes represents a list of volumes

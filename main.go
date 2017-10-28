@@ -13,8 +13,9 @@ func main() {
 	viper.SetConfigName("client")
 	viper.SetConfigType("toml")
 	viper.AddConfigPath("/etc/crackle/")
-	viper.AddConfigPath("$HOME/.crackle")
+	viper.AddConfigPath("$HOME/.cr")
 	viper.AddConfigPath(".")
+	viper.SetDefault("crackle.api", "https://api.crackle.pm/api/")
 	viper.AutomaticEnv()
 	// We fail silently here since client config isn't needed for web-server
 	_ = viper.ReadInConfig()

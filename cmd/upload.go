@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/sunshinekitty/cr/crackle"
 	"github.com/sunshinekitty/cr/helpers"
+	"github.com/sunshinekitty/cr/pkg/crackle"
 )
 
 var filePath string
@@ -44,7 +44,7 @@ var uploadCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		if resp.StatusCode == 200 {
+		if resp.StatusCode == 201 {
 			fmt.Printf("Created package %s\n", createdPackage.Name)
 		} else {
 			fmt.Printf("%v: %s\n", resp.StatusCode, resp.Body)

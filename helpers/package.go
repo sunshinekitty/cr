@@ -49,19 +49,22 @@ func ConfigFileToPackageToml(path string) (*models.PackageToml, error) {
 
 // PackageTomlToPackage takes a PackageToml struct and converts it to a Package struct
 func PackageTomlToPackage(pt *models.PackageToml) (*models.Package, error) {
-	var p models.Package
-	p.CommandStart = pt.CommandStart
-	p.Homepage = pt.Homepage
-	p.LongDescription = pt.LongDescription
-	p.Name = pt.Package
-	p.Pulls = 0
-	p.ShortDescription = pt.ShortDescription
-
+	splitRepository := strings.Split(pt.Repository, ":")
 	username := viper.GetString("crackle.auth.username")
 	if len(username) == 0 {
 		return nil, ErrMissingUsername
 	}
-	p.Owner = username
+	p := &models.Package{
+		CommandStart:     pt.CommandStart,
+		Homepage:         pt.Homepage,
+		LongDescription:  pt.LongDescription,
+		Name:             pt.Package,
+		Pulls:            0,
+		ShortDescription: pt.ShortDescription,
+		Version:          splitRepository[1],
+		Repository:       splitRepository[0],
+		Owner:            username,
+	}
 
 	ptPorts, err := json.Marshal(pt.Ports)
 	if err != nil {
@@ -72,10 +75,6 @@ func PackageTomlToPackage(pt *models.PackageToml) (*models.Package, error) {
 		return nil, err
 	}
 
-	splitRepository := strings.Split(pt.Repository, ":")
-	p.Version = splitRepository[1]
-	p.Repository = splitRepository[0]
-
 	ptVolumes, err := json.Marshal(pt.Volumes)
 	if err != nil {
 		return nil, err
@@ -85,7 +84,39 @@ func PackageTomlToPackage(pt *models.PackageToml) (*models.Package, error) {
 		return nil, err
 	}
 
-	return &p, nil
+	return p, nil
+}
+
+// PackageToPackageToml converts a Package object to PackageToml object
+func PackageToPackageToml(p *models.Package) (*models.PackageToml, error) {
+	pt := &models.PackageToml{
+		CommandStart:     p.CommandStart,
+		Homepage:         p.Homepage,
+		LongDescription:  p.LongDescription,
+		Package:          p.Name,
+		ShortDescription: p.ShortDescription,
+		Repository:       fmt.Sprintf("%s:%s", p.Repository, p.Version),
+	}
+
+	pPorts, err := json.Marshal(p.Ports)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(pPorts, &pt.Ports)
+	if err != nil {
+		return nil, err
+	}
+
+	pVolumes, err := json.Marshal(p.Volumes)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(pVolumes, &pt.Volumes)
+	if err != nil {
+		return nil, err
+	}
+
+	return pt, nil
 }
 
 // ValidPackageToml validates a PackageToml object
