@@ -35,6 +35,7 @@ type Client struct {
 
 	// Services used for talking to different parts of the Crackle API.
 	Package *PackageService
+	Version *VersionService
 }
 
 type service struct {
@@ -68,6 +69,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c := &Client{client: httpClient, UserAgent: userAgent, BaseURL: baseURL}
 	c.common.client = c
 	c.Package = (*PackageService)(&c.common)
+	c.Version = (*VersionService)(&c.common)
 	return c
 }
 

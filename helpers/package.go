@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -39,6 +40,36 @@ var (
 	// ErrMissingUsername is thrown when a username isn't set in client config
 	ErrMissingUsername = errors.New("username is not set in client config")
 )
+
+// ConfigFileToCmd takes a path to a crackle package config and outputs a
+// docker command and args to run said package.
+func ConfigFileToCmd(path string) (string, string, error) {
+	var cmdBuff bytes.Buffer
+
+	pt, err := ConfigFileToPackageToml(path)
+	if err != nil {
+		return "", "", err
+	}
+
+	cmdStart := ""
+	if pt.CommandStart != nil {
+		cmdStart = " " + *pt.CommandStart
+	}
+
+	cmdBuff.WriteString("docker run -t --rm ")
+
+	for _, p := range pt.Ports {
+		cmdBuff.WriteString(fmt.Sprintf("-p %s:%s ", p.Local, p.Container))
+	}
+
+	for _, v := range pt.Volumes {
+		cmdBuff.WriteString(fmt.Sprintf("-v %s:%s ", v.Local, v.Container))
+	}
+
+	cmdBuff.WriteString(fmt.Sprintf("%s%s", pt.Repository, cmdStart))
+
+	return "/usr/bin/env", cmdBuff.String(), nil
+}
 
 // ConfigFileToPackageToml takes a path to toml config and translates to PackageToml struct
 func ConfigFileToPackageToml(path string) (*models.PackageToml, error) {

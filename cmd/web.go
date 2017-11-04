@@ -58,6 +58,8 @@ var webCmd = &cobra.Command{
 		e.PUT("/api/package/:name", handlers.UpdatePackage)
 		e.DELETE("/api/package/:name", handlers.DeletePackage)
 
+		e.GET("/api/version", handlers.Version)
+
 		// Start server
 		e.Logger.Info("Starting server at ", bind)
 		e.Logger.Fatal(e.Start(bind))

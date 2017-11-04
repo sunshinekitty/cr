@@ -1,4 +1,4 @@
-memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
+memo = "f38a31019be60c152937537206837caecd0f8e89adf0cd9c8cb61af725ba43ce"
 
 [[projects]]
   name = "github.com/BurntSushi/toml"
@@ -7,10 +7,22 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   version = "v0.3.0"
 
 [[projects]]
+  name = "github.com/codegangsta/inject"
+  packages = ["."]
+  revision = "37d7f8432a3e684eef9b2edece76bdfa6ac85b39"
+  version = "v1.0-rc1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/codeskyblue/go-sh"
+  packages = ["."]
+  revision = "703901965097a6b3155c0f6f774efb877b483f64"
+
+[[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
-  revision = "d2709f9f1f31ebcda9651b03077758c1f3a0018c"
-  version = "v3.0.0"
+  revision = "dbeaa9332f19a944acb5736b4456cfcc02140e29"
+  version = "v3.1.0"
 
 [[projects]]
   name = "github.com/fsnotify/fsnotify"
@@ -22,7 +34,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/hashicorp/hcl"
   packages = [".","hcl/ast","hcl/parser","hcl/scanner","hcl/strconv","hcl/token","json/parser","json/scanner","json/token"]
-  revision = "42e33e2d55a0ff1d6263f738896ea8c13571a8d0"
+  revision = "23c074d0eceb2b8a5bfdbb271ab780cde70f05a8"
 
 [[projects]]
   name = "github.com/inconshreveable/mousetrap"
@@ -34,7 +46,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/jmoiron/sqlx"
   packages = [".","reflectx","types"]
-  revision = "d9bd385d68c068f1fabb5057e3dedcbcbb039d0f"
+  revision = "3379e5993990b1f927fc8db926485e6f6becf2d2"
 
 [[projects]]
   name = "github.com/labstack/echo"
@@ -52,7 +64,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/lib/pq"
   packages = [".","oid"]
-  revision = "017e4c14d80628353eaee677a1aeffe47a10c0dc"
+  revision = "b609790bd85edf8e9ab7e0f8912750a786177bcf"
 
 [[projects]]
   name = "github.com/magiconair/properties"
@@ -76,7 +88,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/mitchellh/mapstructure"
   packages = ["."]
-  revision = "d0303fe809921458f417bcf828397a65db30a7e4"
+  revision = "06020f85339e21b2478f756a78e295255ffa4d6a"
 
 [[projects]]
   name = "github.com/pelletier/go-toml"
@@ -88,7 +100,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/spf13/afero"
   packages = [".","mem"]
-  revision = "e67d870304c4bca21331b02f414f970df13aa694"
+  revision = "5660eeed305fe5f69c8fc6cf899132a459a97064"
 
 [[projects]]
   name = "github.com/spf13/cast"
@@ -100,7 +112,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/spf13/cobra"
   packages = ["."]
-  revision = "7b2c5ac9fc04fc5efafb60700713d4fa609b777b"
+  revision = "b3426bbac13d7110c4d8fce456ea0012f79f3b8b"
 
 [[projects]]
   branch = "master"
@@ -118,7 +130,7 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "github.com/spf13/viper"
   packages = ["."]
-  revision = "d9cca5ef33035202efb1586825bdbb15ff9ec3ba"
+  revision = "8ef37cbca71638bf32f3d5e194117d4cb46da163"
 
 [[projects]]
   branch = "master"
@@ -136,19 +148,19 @@ memo = "9bd680b09ae2954774d722f973c4a76f188c10748d290880149329da8c575226"
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["acme","acme/autocert"]
-  revision = "9419663f5a44be8b34ca85f08abc5fe1be11f8a3"
+  revision = "bd6f299fb381e4c3393d1c4b1f0b94f5e77650c8"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "686000749eaec0b8855b8eef5336cf63899fe51d"
+  revision = "95c6576299259db960f6c5b9b69ea52422860fce"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/text"
   packages = ["internal/gen","internal/triegen","internal/ucd","transform","unicode/cldr","unicode/norm"]
-  revision = "c01e4764d870b77f8abe5096ee19ad20d80e8075"
+  revision = "7d4e23b25beca3bc3b804ab134f0b12b4ca909d1"
 
 [[projects]]
   branch = "v2"
