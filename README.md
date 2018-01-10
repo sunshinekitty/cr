@@ -1,4 +1,6 @@
 # Crackle
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsunshinekitty%2Fcr.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsunshinekitty%2Fcr?ref=badge_shield)
+
 
 Crackle is a package manager for docker applications [crackle.sh](https://crackle.sh)
 
@@ -46,3 +48,6 @@ Go executable executed with Crackle!
 ### What happened when we executed?
 
 Crackle looked in our `$HOME/.cr/packages` directory for a config for that package.  After it was found the config was read and used to construct a `docker run` command for that application.  Crackle then executed that `docker run` command and printed the output to stdout.
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsunshinekitty%2Fcr.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsunshinekitty%2Fcr?ref=badge_large)
